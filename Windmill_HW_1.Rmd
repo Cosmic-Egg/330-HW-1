@@ -1,0 +1,27 @@
+---
+title: "Windmill HW 1"
+author: "Ethan Kemeny"
+date: "9/19/2018"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+windmills <- read.table("Windmill.txt", header = TRUE)
+```
+
+1. It can be costly to produce windmills.  Companies often will use reference sites as an indicator of how efficient a canadite site will be.  Using the data we will determine how good of a predictor reference sites are, as well as be able to predict canadate site speeds using the reference speeds.  Using statistical modeling, we can produce quanitittive estimates and be able to better understand the actual relationship between reference and canadite sites.
+
+
+2.
+```{r}
+
+ggplot(windmills, aes(RSpd,CSpd)) + geom_point() +geom_smooth(se = FALSE) + annotate("text", x = 5,y = 20, label = "paste(italic(R) ^ 2, \" =\")", parse =  TRUE) + annotate("text", x=7,y =19.8, label =cor(windmills$RSpd,windmills$CSpd), parse = TRUE )
+
+
+```
+
+There does seem to be a strong relationship between the speeds.  As the reference speed increases so does the canadite site speed.
+
+
+3.
