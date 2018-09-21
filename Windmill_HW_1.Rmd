@@ -1,11 +1,11 @@
 ---
 title: "Windmill HW 1"
-author: "Ethan Kemeny"
+author: "Ethan Kemeny & Chris Trippe"
 date: "9/19/2018"
 output: html_document
 ---
 
-```{r}
+```{r echo=FALSE, include=FALSE}
 library(tidyverse)
 windmills <- read.table("Windmill.txt", header = TRUE)
 ```
@@ -14,9 +14,9 @@ windmills <- read.table("Windmill.txt", header = TRUE)
 
 
 2.
-```{r}
+```{r echo=FALSE,message=FALSE}
 
-ggplot(windmills, aes(RSpd,CSpd)) + geom_point() +geom_smooth(se = FALSE) + annotate("text", x = 5,y = 20, label = "paste(italic(R) ^ 2, \" =\")", parse =  TRUE) + annotate("text", x=7,y =19.8, label =cor(windmills$RSpd,windmills$CSpd), parse = TRUE )
+ggplot(windmills, aes(RSpd,CSpd)) + geom_point() +geom_smooth(se = FALSE) + annotate("text", x = 4,y = 20, label = "Correlation = ") + annotate("text", x=7,y =20, label =cor(windmills$RSpd,windmills$CSpd), parse = TRUE )
 
 
 ```
@@ -43,9 +43,11 @@ If the speed at a reference site is 0, then 3.14 is the expected speed of the ca
 For every increase in 1 unit of speed for the reference site, the candidate site is expected to increase by 0.76 units of speed.
 
 5.
-```{r}
+```{r echo=FALSE}
 prediction_wind <- data.frame(RSpd = c(12,30))
-predict.lm(slr_wind, newdata = prediction_wind)
+ Predictions <- predict.lm(slr_wind, newdata = prediction_wind)
+ names(Predictions) <- c("RSpd = 12", "RSpd = 30")
+ Predictions
 ```
 
 Now that we have a fitted model, we can use it to predict the wind speed at candidate sites. If someone has a measured wind speed at a reference site, the reference site being the x value, they can simply plug it in to the fitted model formula and obtain an expected value for a nearby candidate site. For example, if the reference site has a wind speed of 12:
@@ -53,8 +55,9 @@ $$y = 3.1412324 + (0.755733 \times 12) = 12.21$$
 The expected value for the speed of the nearby candidite site is 12.21 when the reference site has a wind speed of 12.
 
 6.
-```{r}
-cat("The range of the reference site wind speeds are between the values", range(windmills$RSpd)[1], "and", range(windmills$RSpd)[2],"\b.")
+```{r echo=FALSE}
+paste0("The range of the reference site wind speeds are between the values ", range(windmills$RSpd)[1], " and ", range(windmills$RSpd)[2],".") %>% 
+  writeLines()
 ```
 The fitted model that was calculated uses wind speeds from reference sites between these values. The model does not account for anything that happens outside this range, so it is unkown exactly what the relationship between the reference site and candidate site wind speeds will be. If we find that a reference site has a wind speed of 30, we obtain the following prediction for a corresponding candidate site:
 $$y = 3.1412324 + (0.755733 \times 30) = 25.81$$
